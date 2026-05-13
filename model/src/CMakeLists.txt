@@ -48,12 +48,12 @@ target_include_directories(ww3_lib
 # Set compiler flags.
 if(CMAKE_Fortran_COMPILER_ID MATCHES "^(Intel)$")
   set(compile_flags -no-fma -ip -g -traceback -i4 -real-size 32 -fp-model precise
-    -assume byterecl -fno-alias -fno-fnalias)
+    -assume byterecl -fno-alias -fno-fnalias -ftz)
   # -sox only works on Linux
   if(LINUX)
     list(APPEND compile_flags -sox)
   endif()
-  set(compile_flags_release -O3)
+  set(compile_flags_release -O2)
   # SHELL: prefix fixes CMake attempting to de-duplicate the repeated uses of 'all' in -warn, -debug, -check
   # See https://cmake.org/cmake/help/latest/command/target_compile_options.html#option-de-duplication
   set(compile_flags_debug -O0 "SHELL:-debug all" "SHELL:-warn all" "SHELL:-check all" -check noarg_temp_created -fp-stack-check -heap-arrays -traceback -fpe0)
@@ -67,8 +67,8 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "^(Intel)$")
   endif()
 
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^(GNU)$")
-  set(compile_flags -g -fno-second-underscore -ffree-line-length-none)
-  set(compile_flags_release -O3)
+  set(compile_flags -g -fno-second-underscore -ffree-line-length-none -mdaz-ftz)
+  set(compile_flags_release -O2)
   set(compile_flags_debug -Wall -fcheck=all -ffpe-trap=invalid,zero,overflow -frecursive -fbacktrace)
   
   if(${CMAKE_Fortran_COMPILER_VERSION} VERSION_GREATER_EQUAL 10)
