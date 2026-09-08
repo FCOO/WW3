@@ -151,6 +151,16 @@ MODULE W3UPDTMD
 #endif
   USE W3TIMEMD, ONLY: DSEC21
   !/
+  PUBLIC
+  !/
+  !/ Public variables
+  !/
+#ifdef W3_RTD
+  ! Logical to tell subroutine W3UBPT (called from W3WAVE) when inbound nesting spectra
+  ! are read from file, and therefore are to be rotated
+  LOGICAL :: BCTURN = .FALSE.
+#endif
+  !/
   !/ ------------------------------------------------------------------- /
   !/
 CONTAINS
@@ -1475,18 +1485,21 @@ CONTAINS
       !
 #ifdef W3_RTD
       !!  Rotate the spectra if model is on rotated grid.  JGLi12Jun2012
-      !!  PoLat == 90. if the grid is standard lat/lon (C. Hansen 20190613)
-      IF ( PoLat < 90. ) THEN
+      !!  Spectra are turned/deturned only when read/write from/to file (W3IOBC),
+      !!  To control that spectra are NOT turned after receiving two-way inbound
+      !!  spectra, in W3WAVE we set the logical BCTURN==.true. only when calling
+      !!  W3UBPT from W3WAVE upon prior calling W3IOBC to read data from file nest.ww3.
+      !!  PoLat == 90. if the grid is standard lat/lon
+      IF ( BCTURN .AND. PoLat < 90. ) THEN
         Spectr = BBPIN(:,IBI)
         AnglBP = AnglD(ISEA)
         CALL  W3ACTURN( NTH, NK, AnglBP, Spectr )
         BBPIN(:,IBI) = Spectr
       END IF
-
 #endif
       !
     END DO
-
+    !
     ! 3.  Wave height test output ---------------------------------------- *
     !
 #ifdef W3_T0

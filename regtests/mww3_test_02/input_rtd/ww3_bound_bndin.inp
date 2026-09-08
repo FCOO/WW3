@@ -1,0 +1,12 @@
+$
+ WRITE
+$ READ
+$
+ 2
+$ 
+ 1
+$
+../input_rtd/bnd1.spc
+../input_rtd/bnd2.spc
+../input_rtd/bnd3.spc
+'STOPSTRING'

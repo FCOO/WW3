@@ -1,0 +1,43 @@
+$ WAVEWATCH III Grid preprocessor input file
+$ ------------------------------------------
+  'The outer grid @ 0.225 deg    '
+$
+   1.1 0.04177 25 24 0.
+$
+   F T T F F F
+   900.  900.  900.   15.
+$
+  &OUTS E3D=1, TH1MF=1, STH1MF=1, TH2MF=1, STH2MF=1 /
+  &PRO2 DTIME = 0. /
+$ &PRO2 DTIME = 21600. /
+  &PRO3 WDTHCG = 0., WDTHTH = 0. /
+  &ROTD PLAT = 0.0 PLON = -90.0, UNROT = .FALSE. /
+END OF NAMELISTS
+$
+   'RECT' T 'NONE'
+   43   43
+    0.225   0.225   1.
+   -5.625  -5.625   1.
+$
+  -0.1 0.25  10  -1000. 4 1 '(....)' 'UNIT' 'input'
+$
+  1849*1
+$
+   10 1 1 '(....)' 'PART' 'mapsta.inp'
+$
+$
+   1  1  T
+   1 43  T
+  43 43  T
+  43  1  T
+   1  1  T
+   0  0  F
+$
+   0  0  F
+   0  0
+$
+$   0  0  F
+$   0  0  F
+$   0  0
+$
+     0.     0.     0.     0.     0

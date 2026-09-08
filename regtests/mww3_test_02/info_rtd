@@ -1,0 +1,54 @@
+#############################################################################
+#                                                                           #
+# Case switch RTD                                                           #
+#                                                                           #
+# mww3_test_02 : Test for static nesting (propagation only)                 #
+#                Single nest basic test.                                    #
+#                                                                           #
+# The test case here is for spherical (longitude,latitude) grids with a     #
+# (common) rotated pole                                                     #
+# The test case is adopted from mww3_test_02 with inputs in dir. input_rtd  #
+# and marked '_rtd'                                                         #
+# grdset_n contains a spherical approximations to the Cartesian grdset_b    #
+# with a perifical grid 'bndin' added to provide boundary conditions from   #
+# file nest.bndin.                                                          #
+# The script run_cmake_test is run with options -i input_rtd -g rtd         #
+#                                                                           #
+# The three grids are rectilinear spherical and placed around the           #
+# geographical North Pole and grid y-axis pointing towards a rotated north #
+# pole at the Equator at lon, lat = -90., 0.                                #
+#                                                                           #
+#   * ww3_grid_rtd_bndin.{inp,nml}: (grid with boundary spectra from file)  #
+#     + Spatial grid: 13 x 13 rectilinear spherical grid at                 #
+#       - dx = 1.0 deg, dy = 1.0 deg                                        #
+#       - Xrange = -7.0:5.0 deg, Yrange = -7.0:5.0 deg                      #
+#       - Grid north pole at lon, lat = -90., 0.                            #
+#     + Spectral grid: ntheta = 24, nf = 13, f1 = 0.067, fgamma = 1.1       #
+#     + nest.ww3 file generated with ww3_bound from triangle bnd{1,2,3}.spc #
+#       - adapted from regtests/ww3_tr1 (C. Bunney) and modified            #
+#                                                                           #
+#   * ww3_grid_rtd_outer.{inp,nml} :                          (outer grid)  #
+#     + Spatial grid: 43 x 43 rectilinear spherical grid                    #
+#       - dx = 0.225 deg, dy = 0.225 deg                                    #
+#       - Xrange = -5.625:3.825 deg, Yrange = -5.625:3.825 deg              #
+#       - Grid north pole at lon, lat = -90., 0.                            #
+#     + Spectral grid: ntheta = 24, nf = 25, f1 = 0.04177, fgamma = 1.1     #
+#                                                                           #
+#   * ww3_grid_rtd_fine.{inp,nml} :         (double resolution inner grid)  #
+#     + Spatial grid: 25 x 25 rectilinear spherical grid                    #
+#       - dx = 0.1125 deg, dy = 0.1125 deg                                  #
+#       - Xrange = 0:2.7 deg, Yrange = 0:2.7 deg                            #
+#       - Grid north pole at lon, lat = -90., 0.                            #
+#     + Spectral grid: ntheta = 24, nf = 25, f1 = 0.04177, fgamma = 1.1     #
+#                                                                           #
+#   * Grid set :                                                           #
+#     +  grdset_n: bndin + outer + fine                                     #
+#                                                                           #
+#   * Switch:                                                               #
+#     + switch_PR3_UQ_MPI_RTD                                               #
+#                                                                           #
+# Example run_test command:                                                #
+#                                                                           #
+# ./bin/run_cmake_test -N -i input_rtd -g rtd -m grdset_n -n 3 -p mpirun  \ #
+#     -s PR3_UQ_MPI_RTD -w work_bp_PR3_MPI_RTD ../model mww3_test_02        #
+

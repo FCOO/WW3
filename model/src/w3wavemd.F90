@@ -567,6 +567,9 @@ CONTAINS
 #if defined(W3_T) || defined(W3_SBS)
     USE W3GDATMD,  ONLY : FILEXT
 #endif
+#ifdef W3_RTD
+    USE W3UPDTMD, ONLY: BCTURN
+#endif
     !
 #ifdef W3_MPI 
     use mpi_f08
@@ -1301,7 +1304,15 @@ CONTAINS
 
             IF ( READBC ) THEN
               CALL W3IOBC ( 'READ', NDS(9), TBPI0, TBPIN, ITEST, IMOD )
+#ifdef W3_RTD
+              ! Rotate inbound spectra read from file if the model is on a rotated grid
+              BCTURN = .TRUE.
+#endif
               IF ( ITEST .NE. 1 ) CALL W3UBPT
+#ifdef W3_RTD
+              ! Do not rotate two-way inbound spectra in calls of W3UBPT from ww3_multi
+              BCTURN = .FALSE.
+#endif
             ELSE
               ITEST  = 0
             END IF
